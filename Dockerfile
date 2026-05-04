@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.23
 
 ARG KEEPALIVED_VERSION
 RUN apk add --no-cache keepalived bind-tools \
