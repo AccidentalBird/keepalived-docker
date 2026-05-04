@@ -10,7 +10,9 @@ services:
       - NET_RAW
     volumes:
       - /etc/keepalived/keepalived.conf:/etc/keepalived/keepalived.conf:ro
-      # Optional: mount a health check script referenced by your keepalived config
+      # Optional: mount a health check script referenced by your keepalived config.
+      # The script must be executable and readable by all users (chmod a+rx)
+      # because keepalived runs it as the keepalived_script user, not root.
       # - /path/to/check.sh:/check.sh:ro
     environment:
       - TZ=America/Chicago

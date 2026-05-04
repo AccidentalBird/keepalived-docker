@@ -48,6 +48,31 @@ services:
 | `latest` | Latest build from `main` |
 | `sha-<commit>` | Pinned to a specific commit |
 
+## Security
+
+**Required capabilities:** keepalived uses VRRP, which requires `NET_ADMIN`, `NET_BROADCAST`, and `NET_RAW` to manage virtual IPs on the host network interface. These cannot be dropped — they are architectural requirements of the protocol, not artifacts of this image.
+
+**Script user:** The image creates a `keepalived_script` user (no login, no home directory). Health check scripts run as this user, not root. Your keepalived config should include:
+
+```
+global_defs {
+    enable_script_security
+}
+
+vrrp_script check_something {
+    script "/check.sh"
+    user keepalived_script
+}
+```
+
+**Script permissions:** Any script mounted into the container must be executable and readable by all users:
+
+```bash
+chmod a+rx /path/to/check.sh
+```
+
+**Vulnerability scanning:** Every build is scanned with [Trivy](https://github.com/aquasecurity/trivy). Results are published to the GitHub Security tab. Base image updates are automated via Dependabot.
+
 ## Build
 
 ```bash
