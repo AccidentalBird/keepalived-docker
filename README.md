@@ -24,6 +24,8 @@ docker run -d \
 
 ## Docker Compose
 
+See [`compose.example.yaml`](compose.example.yaml) for a full example. Minimal config:
+
 ```yaml
 services:
   keepalived:
