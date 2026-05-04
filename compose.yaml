@@ -1,0 +1,16 @@
+services:
+  keepalived:
+    image: ghcr.io/accidentalbird/keepalived-docker:latest
+    container_name: keepalived
+    restart: always
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW
+    volumes:
+      - /etc/keepalived/keepalived.conf:/etc/keepalived/keepalived.conf:ro
+      # Optional: mount a health check script referenced by your keepalived config
+      # - /path/to/check.sh:/check.sh:ro
+    environment:
+      - TZ=America/Chicago
