@@ -1,0 +1,12 @@
+# Local env overrides
+.env
+*.env.local
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
