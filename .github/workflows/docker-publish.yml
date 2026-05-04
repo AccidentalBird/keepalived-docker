@@ -51,7 +51,7 @@ jobs:
       # Multi-arch builds cannot be loaded into the local daemon,
       # so we build amd64-only here purely for the scan step.
       - name: Build image for scanning
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64
@@ -78,7 +78,7 @@ jobs:
       # Kept separate from the scan build — 'load' and multi-platform are mutually exclusive.
       - name: Build and push multi-arch
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
