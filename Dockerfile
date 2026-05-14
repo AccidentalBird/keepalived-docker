@@ -1,7 +1,6 @@
 FROM alpine:3.23
 
-ARG KEEPALIVED_VERSION
-RUN apk add --no-cache keepalived bind-tools \
+RUN apk add --no-cache keepalived \
     && adduser -S -D -H -s /sbin/nologin keepalived_script \
     && INSTALLED_VERSION=$(keepalived --version 2>&1 | head -1 | awk '{print $2}') \
     && echo "keepalived version: $INSTALLED_VERSION"
