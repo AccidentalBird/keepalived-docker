@@ -1,6 +1,6 @@
 FROM alpine:3.23
 
-RUN apk add --no-cache keepalived \
+RUN apk add --no-cache keepalived gettext \
     && adduser -S -D -H -s /sbin/nologin keepalived_script \
     && INSTALLED_VERSION=$(keepalived --version 2>&1 | head -1 | awk '{print $2}') \
     && echo "keepalived version: $INSTALLED_VERSION"
@@ -17,4 +17,9 @@ LABEL org.opencontainers.image.title="keepalived-docker" \
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD pidof keepalived || exit 1
 
-ENTRYPOINT ["keepalived", "-n", "-l", "-d", "-f", "/etc/keepalived/keepalived.conf"]
+COPY entrypoint.sh /entrypoint.sh
+
+# The entrypoint renders /etc/keepalived/keepalived.conf.tmpl when one is
+# mounted, then execs keepalived. With no template present it execs keepalived
+# directly, so a plain mounted config behaves exactly as it did before.
+ENTRYPOINT ["/entrypoint.sh"]
